@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JuicyMelons Coin - The Most Refreshing Cryptocurrency">
+    <meta name="theme-color" content="#00ff00">
+    <title>JuicyMelons Coin</title>
+    <style>
+        :root {
+            --primary-color: #00ff00;
+            --primary-dark: #00cc00;
+            --bg-color: #0c0c0c;
+            --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
+            --typing-speed: 100ms;
+            --font-family: 'Courier New', Courier, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            animation-delay: calc(var(--typing-speed) * var(--order));
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            font-family: var(--font-family);
+            padding: 20px;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            --order: 1;
+        }
+
+        .terminal {
+            max-width: min(800px, 90vw);
+            margin: 0 auto;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            --order: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .terminal:hover {
+            transform: scale(1.01);
+        }
+
+        .cursor {
+            animation: blink 1s steps(1) infinite;
+            --order: 3;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 0 0 10px var(--primary-color); }
+            50% { text-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--primary-color); }
+        }
+
+        .command-prompt {
+            position: relative;
+            padding-left: 20px;
+            transition: all 0.3s var(--animation-timing);
+            opacity: 0;
+            animation: typeWriter 2s forwards, textGlow 2s infinite;
+            animation-delay: calc(var(--typing-speed) * var(--order));
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .command-prompt:hover {
+            transform: translateX(10px);
+        }
+
+        .command-prompt::before {
+            content: "$ ";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            animation: textGlow 2s infinite;
+        }
+
+        .ascii-art {
+            white-space: pre;
+            font-size: clamp(14px, 3vw, 18px);
+            margin: 20px 0;
+            text-align: center;
+            padding: 20px 0;
+            text-shadow: 0 0 5px var(--primary-color);
+            user-select: none;
+            opacity: 0;
+            animation: typeWriter 3s forwards, textGlow 3s infinite;
+            --order: 4;
+            transition: transform 0.3s ease;
+        }
+
+        .ascii-art:hover {
+            transform: scale(1.05);
+        }
+
+        .command {
+            margin: 10px 0;
+            opacity: 0;
+            animation: typeWriter 1s forwards, textGlow 2s infinite;
+            animation-delay: calc(var(--typing-speed) * var(--order));
+        }
+
+        .response {
+            margin-left: 20px;
+            color: var(--primary-dark);
+            opacity: 0;
+            word-wrap: break-word;
+            max-width: 100%;
+            animation: typeWriter 3s forwards, textGlow 3s infinite;
+            animation-delay: calc(var(--typing-speed) * var(--order));
+            transition: all 0.3s ease;
+        }
+
+        .response:hover {
+            transform: translateX(5px);
+        }
+
+        @keyframes typeWriter {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--primary-color);
+            font-size: 0.9em;
+            position: sticky;
+            bottom: 0;
+            background-color: var(--bg-color);
+            backdrop-filter: blur(5px);
+            z-index: 2;
+            opacity: 0;
+            animation: typeWriter 2s forwards, textGlow 3s infinite;
+            animation-delay: calc(var(--typing-speed) * 20);
+            transition: transform 0.3s ease;
+        }
+
+        .footer:hover {
+            transform: translateY(-5px);
+        }
+
+        .melon-emoji {
+            display: inline-block;
+            animation: bounce 2s infinite var(--animation-timing);
+            cursor: pointer;
+            transition: all 0.3s var(--animation-timing);
+        }
+
+        .melon-emoji:hover {
+            transform: scale(1.2) rotate(15deg);
+            animation: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .response {
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="ascii-art" role="banner" aria-label="JuicyMelons Coin Logo">
+            ╔═══════════════════════════════════════╗
+            ║        🍈 JUICYMELONS COIN 🍈         ║
+            ║         The Juiciest Crypto          ║
+            ╚═══════════════════════════════════════╝
+        </div>
+
+        <div class="command-prompt" role="heading" aria-level="2" style="--order: 5;">welcome.txt</div>
+        <div class="response" aria-live="polite" style="--order: 6;">
+            Welcome to JuicyMelons Coin - The Most Refreshing Cryptocurrency!
+        </div>
+
+        <div class="command-prompt" role="heading" aria-level="2" style="--order: 7;">about.txt</div>
+        <div class="response" aria-live="polite" style="--order: 8;">
+            JuicyMelons Coin is the most voluptuous cryptocurrency in the blockchain space. 🍈<br><br>
+            Our melons are perfectly round, firm, and ready for your portfolio. 😉<br><br>
+            Our community is growing bigger and rounder every day. 🍈<br><br>
+            What's the difference between other coins and JuicyMelons? We've got the sweetest pairs in DeFi! 🔄<br><br>
+            Our developers work hard to keep everything perky and uplifting. 📈<br><br>
+            Why did the whale invest in JuicyMelons? Because they couldn't resist a good squeeze! 💦<br><br>
+            Our tokenomics are so attractive, even the bears can't keep their paws off! 🐻<br><br>
+            Remember: The best melons are the ones you HODL carefully. 💎<br><br>
+            Join our bouncy journey to the moon - where gravity can't hold these melons down! 🚀
+        </div>
+
+        <div class="command-prompt" role="heading" aria-level="2" style="--order: 9;">tokenomics.txt</div>
+        <div class="response" aria-live="polite" style="--order: 10;">
+            Total Supply: 1,000,000,000 $JMELON<br>
+        </div>
+
+        <div class="command-prompt" role="heading" aria-level="2" style="--order: 11;">features.txt</div>
+        <div class="response" aria-live="polite" style="--order: 12;">
+            - Deflationary Mechanism<br>
+            - Community Governed<br>
+        </div>
+
+        <div class="command" style="--order: 13;">
+            <span class="cursor" aria-hidden="true">█</span>
+        </div>
+    </div>
+
+    <footer class="footer" role="contentinfo">
+        🍈 JuicyMelons Coin © 2023 | The Sweetest Token in DeFi<br>
+        Twitter: <a href="https://x.com/juicymelonsx" target="_blank" rel="noopener noreferrer" style="color: inherit;">@JuicyMelonsCoin</a><br>
+    </footer>
+
+    <script>
+        // Debounce function for performance optimization
+        const debounce = (func, wait) => {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        };
+
+        // Initialize all animations and interactions
+        function initializeApp() {
+            // Initialize emoji animations
+            animateEmojis();
+            
+            // Add interactive effects
+            document.querySelectorAll('.response').forEach(element => {
+                element.addEventListener('mouseover', () => {
+                    element.style.textShadow = '0 0 15px var(--primary-color)';
+                });
+                element.addEventListener('mouseout', () => {
+                    element.style.textShadow = 'none';
+                });
+            });
+
+            // Add click effects
+            document.querySelectorAll('.command-prompt').forEach(prompt => {
+                prompt.addEventListener('click', () => {
+                    prompt.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        prompt.style.transform = 'none';
+                    }, 200);
+                });
+            });
+        }
+
+        // Optimized emoji animation handler
+        function animateEmojis() {
+            const emojis = document.querySelectorAll('.ascii-art, .footer');
+            const template = document.createElement('template');
+
+            emojis.forEach(emoji => {
+                const melons = emoji.innerHTML.match(/🍈/g);
+                if (melons) {
+                    template.innerHTML = emoji.innerHTML.replace(/🍈/g, '<span class="melon-emoji">🍈</span>');
+                    emoji.innerHTML = '';
+                    emoji.appendChild(template.content.cloneNode(true));
+                }
+            });
+
+            // Add click interaction to melons
+            document.querySelectorAll('.melon-emoji').forEach(melon => {
+                melon.addEventListener('click', () => {
+                    melon.style.transform = 'scale(1.5) rotate(360deg)';
+                    setTimeout(() => {
+                        melon.style.transform = '';
+                    }, 500);
+                });
+            });
+        }
+
+        // Start the app when DOM is ready
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+        // Add service worker for PWA support
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(console.error);
+        }
+    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modified Matrix Background</title>
+<style>
+    body {
+        margin: 0;
+        background-color: #0c0c0c;
+        overflow: auto;
+        perspective: 1000px;
+    }
+
+    #matrix-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .matrix-character {
+        position: absolute;
+        font-size: 20px;
+        font-family: monospace;
+        will-change: transform, opacity, color;
+        text-shadow: 0 0 8px currentColor;
+        opacity: 0;
+    }
+
+    .rain {
+        color: #00ff00;
+        animation: matrixRain linear infinite;
+    }
+
+    .pulse {
+        color: #00ff00;
+        animation: matrixPulse linear infinite;
+    }
+
+    .highlight {
+        color: #ffffff;
+        animation: matrixHighlight linear infinite;
+    }
+
+    @keyframes matrixRain {
+        0% {
+            transform: translateY(-100vh) translateZ(var(--z-pos));
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100vh) translateZ(var(--z-pos));
+            opacity: 0;
+        }
+    }
+
+    @keyframes matrixPulse {
+        0% {
+            transform: translateY(-100vh) scale(1) translateZ(var(--z-pos));
+            opacity: 1;
+        }
+        50% {
+            transform: translateY(0) scale(1.5) translateZ(var(--z-pos));
+            opacity: 0.9;
+            color: #ffffff;
+        }
+        100% {
+            transform: translateY(100vh) scale(1) translateZ(var(--z-pos));
+            opacity: 0;
+        }
+    }
+
+    @keyframes matrixHighlight {
+        0% {
+            transform: translateY(-100vh) translateZ(var(--z-pos));
+            opacity: 1;
+        }
+        50% {
+            transform: translateY(0) translateZ(var(--z-pos));
+            opacity: 0.9;
+        }
+        100% {
+            transform: translateY(100vh) translateZ(var(--z-pos));
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+<body>
+<div id="matrix-bg"></div>
+
+<script>
+    function createMatrixRain() {
+        const bg = document.getElementById('matrix-bg');
+        const characters = '01?';
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const fontSize = 20;
+        const columns = Math.floor(width / fontSize);
+
+        const pool = new Set();
+        const maxCharacters = columns * 3;
+
+        function getRandomAnimation() {
+            const rand = Math.random();
+            if (rand < 0.7) return 'rain';      // 70% rain
+            if (rand < 0.9) return 'pulse';     // 20% pulse
+            return 'highlight';                  // 10% highlight
+        }
+
+        function createCharacter() {
+            if (pool.size >= maxCharacters) return;
+            
+            const char = document.createElement('span');
+            const animation = getRandomAnimation();
+            char.className = `matrix-character ${animation}`;
+            
+            const column = Math.floor(Math.random() * columns);
+            char.style.left = `${column * fontSize}px`;
+            
+            // Set random Z position between -5 and -9
+            const zPos = -5 - Math.random() * 4; // Random value between -5 and -9
+            char.style.setProperty('--z-pos', `${zPos}px`);
+            
+            const duration = 4 + Math.random() * 3;
+            char.style.animationDuration = `${duration}s`;
+            
+            char.textContent = characters[Math.floor(Math.random() * characters.length)];
+            
+            char.addEventListener('animationend', () => {
+                pool.delete(char);
+                char.remove();
+            }, { once: true });
+            
+            pool.add(char);
+            bg.appendChild(char);
+        }
+
+        // Continuously add new characters
+        const interval = setInterval(() => {
+            if (Math.random() < 0.8) {
+                createCharacter();
+            }
+        }, 100);
+
+        return () => clearInterval(interval);
+    }
+
+    let cleanupFn;
+    
+    function initMatrixRain() {
+        if (cleanupFn) cleanupFn();
+        const bg = document.getElementById('matrix-bg');
+        bg.innerHTML = '';
+        cleanupFn = createMatrixRain();
+    }
+
+    // Start animation
+    initMatrixRain();
+
+    // Handle resize with debounce
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(initMatrixRain, 250);
+    });
+</script>
+</body>
+</html>
