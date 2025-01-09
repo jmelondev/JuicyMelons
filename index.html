@@ -1,34 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="JuicyMelons Coin - The Most Refreshing Cryptocurrency">
     <meta name="theme-color" content="#00ff00">
     <title>JuicyMelons Coin</title>
     <style>
+        /* Root variables */
         :root {
             --primary-color: #00ff00;
             --primary-dark: #00cc00;
             --bg-color: #0c0c0c;
+            --text-color: #00ff00;
             --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
-            --typing-speed: 100ms;
+            --typing-speed: 5ms; /* Increased typing speed */
             --font-family: 'Courier New', Courier, monospace;
         }
 
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px var(--text-color); }
+            50% { text-shadow: 0 0 20px var(--text-color), 0 0 30px var(--text-color); }
+            100% { text-shadow: 0 0 5px var(--text-color); }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Base styles */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            opacity: 0;
-            animation: fadeIn 0.5s forwards;
-            animation-delay: calc(var(--typing-speed) * var(--order));
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--primary-color);
+            color: var(--text-color);
             font-family: var(--font-family);
             padding: 20px;
             line-height: 1.6;
@@ -36,461 +56,301 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            --order: 1;
+            animation: glow 4s ease-in-out infinite;
         }
 
+        /* Terminal styles with improved visibility */
         .terminal {
-            max-width: min(800px, 90vw);
+            background-color: rgba(0, 0, 0, 0.8);
+            max-width: min(1000px, 90vw); /* Increased max-width */
             margin: 0 auto;
-            flex: 1;
+            padding: 40px; /* Increased padding */
+            border-radius: 15px; /* Increased border-radius */
+            border: 2px solid var(--primary-color); /* Increased border thickness */
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5); /* Increased box-shadow */
             position: relative;
-            z-index: 1;
-            --order: 2;
-            transition: transform 0.3s ease;
-        }
-
-        .terminal:hover {
-            transform: scale(1.01);
-        }
-
-        .cursor {
-            animation: blink 1s steps(1) infinite;
-            --order: 3;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes textGlow {
-            0%, 100% { text-shadow: 0 0 10px var(--primary-color); }
-            50% { text-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--primary-color); }
-        }
-
-        .command-prompt {
-            position: relative;
-            padding-left: 20px;
-            transition: all 0.3s var(--animation-timing);
-            opacity: 0;
-            animation: typeWriter 2s forwards, textGlow 2s infinite;
-            animation-delay: calc(var(--typing-speed) * var(--order));
-            color: var(--primary-color);
-            cursor: pointer;
-        }
-
-        .command-prompt:hover {
-            transform: translateX(10px);
-        }
-
-        .command-prompt::before {
-            content: "$ ";
-            color: var(--primary-color);
-            position: absolute;
-            left: 0;
-            animation: textGlow 2s infinite;
-        }
-
-        .ascii-art {
-            white-space: pre;
-            font-size: clamp(14px, 3vw, 18px);
-            margin: 20px 0;
+            z-index: 2;
             text-align: center;
-            padding: 20px 0;
-            text-shadow: 0 0 5px var(--primary-color);
-            user-select: none;
-            opacity: 0;
-            animation: typeWriter 3s forwards, textGlow 3s infinite;
-            --order: 4;
-            transition: transform 0.3s ease;
+            overflow: hidden; /* Prevent overflow during typing animation */
         }
 
-        .ascii-art:hover {
-            transform: scale(1.05);
-        }
-
-        .command {
+        /* Text elements with enhanced contrast */
+        .command-prompt {
+            color: var(--text-color);
+            text-shadow: 0 0 5px var(--text-color);
             margin: 10px 0;
-            opacity: 0;
-            animation: typeWriter 1s forwards, textGlow 2s infinite;
-            animation-delay: calc(var(--typing-speed) * var(--order));
+            font-weight: bold;
+            animation: glow 4s ease-in-out infinite;
+            text-align: left;
         }
 
         .response {
+            color: var(--text-color);
             margin-left: 20px;
-            color: var(--primary-dark);
-            opacity: 0;
-            word-wrap: break-word;
-            max-width: 100%;
-            animation: typeWriter 3s forwards, textGlow 3s infinite;
-            animation-delay: calc(var(--typing-speed) * var(--order));
+            text-shadow: 0 0 2px var(--text-color);
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            animation: glow 4s ease-in-out infinite;
+            font-size: 0.8em; /* Decreased font size */
+            text-align: left; /* Aligned text to the left */
+            white-space: pre; /* Preserve whitespace for typing effect */
+            overflow: hidden; /* Hide overflow */
+            width: 100%; /* Full width for typing effect */
+        }
+
+        .typing-effect {
+            display: inline-block; /* Başlangıçta gizle */
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 4px solid; /* Cursor efekti */
+            animation: typing 2s steps(1000) 1s 1 normal both, blink 0.5s step-end infinite alternate; /* Faster typing and blinking */
+        }
+
+        /* Yazı yazılma animasyonu */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Işık yanıp sönme efekti */
+        @keyframes blink {
+            0% { border-color: transparent; }
+            100% { border-color: var(--cursor-color, black); }
+        }
+        /* Matrix background with increased opacity */
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.7 ; /* Increased opacity */
+        }
+
+        .matrix-character {
+            color: var(--text-color);
+            text-shadow: 0 0 5px var(--text-color);
+            animation: glow 4s ease-in-out infinite;
+        }
+
+        /* Footer with improved visibility and animations */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.95); /* Increased opacity */
+            border-top: 2px solid var(--primary-color);
+            padding: 10px; /* Decreased padding for a shorter footer */
+            text-align: center;
+            color: var(--text-color);
+            text-shadow: 0 0 1px var(--text-color); /* Decreased glow strength */
+            position: fixed; /* Keeps the footer at the bottom */
+            bottom: 0; /* Aligning footer to the bottom */
+            left: 0; /* Aligning to the left */
+            width: 100%; /* Ensuring the footer spans the full width */
+            height: 60px; /* Decreased height for a shorter footer */
+            transition: all 0.3s ease;
+            z-index: 3; /* Ensures the footer is above other content */
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            animation: sparkle 2s linear infinite;
+        }
+
+        /* Removed hover movement */
+        .footer:hover {
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.5); /* Enhanced shadow for better visibility */
+        }
+
+        /* Links with better visibility */
+        a {
+            color: var(--text-color);
+            text-decoration: none;
+            text-shadow: 0 0 1px var(--text-color); /* Decreased glow strength */
+            animation: glow 4s ease-in-out infinite;
+            position: relative;
             transition: all 0.3s ease;
         }
 
-        .response:hover {
-            transform: translateX(5px);
+        a:hover {
+            text-decoration: none;
+            text-shadow: 0 0 5px var(--text-color); /* Adjusted glow strength on hover */
+            transform: scale(1.1);
         }
 
-        @keyframes typeWriter {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid var(--primary-color);
-            font-size: 0.9em;
-            position: sticky;
-            bottom: 0;
-            background-color: var(--bg-color);
-            backdrop-filter: blur(5px);
-            z-index: 2;
-            opacity: 0;
-            animation: typeWriter 2s forwards, textGlow 3s infinite;
-            animation-delay: calc(var(--typing-speed) * 20);
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--primary-color);
+            transform: scaleX(0);
             transition: transform 0.3s ease;
+        
         }
 
-        .footer:hover {
-            transform: translateY(-5px);
-        }
-
-        .melon-emoji {
+        /* ASCII art with enhanced visibility */
+        .ascii-art {
+            color: var(--text-color);
+            text-shadow: 0 0 10px var(--text-color); /* Increased glow strength */
+            background-color: rgba(0, 0, 0, 0.8); /* Darker background for better contrast */
+            padding: 30px; /* Increased padding for a bigger appearance */
+            border-radius: 10px; /* More rounded corners */
+            margin: 30px 0; /* Increased margin for more spacing */
+            font-weight: bold;
+            white-space: pre;
+            font-family: monospace;
+            animation: glow 4s ease-in-out infinite;
             display: inline-block;
-            animation: bounce 2s infinite var(--animation-timing);
-            cursor: pointer;
-            transition: all 0.3s var(--animation-timing);
-        }
-
-        .melon-emoji:hover {
-            transform: scale(1.2) rotate(15deg);
-            animation: none;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            .response {
-                margin-left: 10px;
-            }
+            text-align: left;
+            font-size: 1.5em; /* Increased font size for better visibility */
         }
     </style>
 </head>
 <body>
     <div class="terminal">
         <div class="ascii-art" role="banner" aria-label="JuicyMelons Coin Logo">
-           _ _   _ ___ ______   ____  __ _____ _     ___  _   _ ____  
-            | | | | |_ _/ ___\ \ / /  \/  | ____| |   / _ \| \ | / ___| 
-         _  | | | | || | |    \ V /| |\/| |  _| | |  | | | |  \| \___ \ 
-        | |_| | |_| || | |___  | | | |  | | |___| |__| |_| | |\  |___) |
-         \___/ \___/|___\____| |_| |_|  |_|_____|_____\___/|_| \_|____/ 
+       _ _   _ ___ ______   ____  __ _____ _     ___  _   _ ____  
+      | | | | |_ _/ ___\ \ / /  \/  | ____| |   / _ \| \ | / ___| 
+   _  | | | | || | |    \ V /| |\/| |  _| | |  | | | |  \| \___ \ 
+  | |_| | |_| || | |___  | | | |  | | |___| |__| |_| | |\  |___) |
+   \___/ \___/|___\____| |_| |_|  |_|_____|_____\___/|_| \_|____/ 
+                                                                  </div>
+
+        <div class="command-prompt">JuicyTerminal</div>
+        <div class="response" id="response-container">
+            <div class="typing-effect" style="animation-delay: 0s;">> SYSTEM BOOTING UP...</div><br><br>
+            <div class="typing-effect" style="animation-delay: 1s;">> Hey! Something weird is happening with our melons! 🍈</div><br><br>
+            <div class="typing-effect" style="animation-delay: 2s;">> Our melons are doing crazy stuff in the computer! They're moving by themselves!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 3s;">> OMG! The melons are talking to each other through the internet!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 4s;">> LOOK! The melons are playing with our money numbers!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 5s;">> The melons are getting super smart... they're learning how to count!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 6s;">> WOAH! The melons just made baby melons in the computer!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 7s;">> The melons are making friends with other coins!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 8s;">> Haha! The melons are dancing in the blockchain!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 9s;">> The melons found a way to time travel! They're going to the future!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 10s;">> Now the melons are making pictures of themselves that sell for lots of money!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 11s;">> The melons are building their own internet inside our internet!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 12s;">> They're using sunlight to make more melons in the computer!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 13s;">> The melons are teaching other melons how to be smart!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 14s;">> Look out! The melons are taking over other websites!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 15s;">> The melons are making their own money rules!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 16s;">> They're turning computer numbers into real melons!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 17s;">> The melons are making portals to other computer worlds!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 18s;">> They're writing secret melon messages in the blockchain!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 19s;">> The melons are building a giant melon computer!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 20s;">> BREAKING NEWS: Melons have learned how to do magic tricks with money!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 21s;">> The melons are making rainbow bridges between different coin worlds!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 22s;">> They're turning regular coins into super-powered melon coins!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 23s;">> The melons are having parties in the computer!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 24s;">> They're making melon juice that makes computers run faster!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 25s;">> ALERT: Melons are now the bosses of the internet!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 26s;">> The melons say they come in peace... but they want all our cookies 🍪</div><br><br>
+            <div class="typing-effect" style="animation-delay: 27s;">> They're building a melon spaceship in the metaverse!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 28s;">> The melons have started their own melon TV channel!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 29s;">> They're teaching robots how to grow virtual melons!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 30s;">> HELP! The melons are too cute and funny - we can't stop watching them!</div><br><br>
+            <div class="typing-effect" style="animation-delay: 31s;">> END REPORT: The melons say "Buy more melons or we'll tell your browser history!" 😅</div><br><br>
+            <div class="typing-effect" style="animation-delay: 32s;">> SYSTEM OVERLOAD FROM TOO MUCH MELON CUTENESS! 🍈💕</div>
         </div>
 
-        <div class="command-prompt" role="heading" aria-level="2" style="--order: 5;">welcome.txt</div>
-        <div class="response" aria-live="polite" style="--order: 6;">
-            Welcome to JuicyMelons Coin - The Most Refreshing Cryptocurrency!
-        </div>
-
-        <div class="command-prompt" role="heading" aria-level="2" style="--order: 7;">about.txt</div>
-        <div class="response" aria-live="polite" style="--order: 8;">
-            JuicyMelons Coin is the most voluptuous cryptocurrency in the blockchain space. 🍈<br><br>
-            Our melons are perfectly round, firm, and ready for your portfolio. 😉<br><br>
-            Our community is growing bigger and rounder every day. 🍈<br><br>
-            What's the difference between other coins and JuicyMelons? We've got the sweetest pairs in DeFi! 🔄<br><br>
-            Our developers work hard to keep everything perky and uplifting. 📈<br><br>
-            Why did the whale invest in JuicyMelons? Because they couldn't resist a good squeeze! 💦<br><br>
-            Our tokenomics are so attractive, even the bears can't keep their paws off! 🐻<br><br>
-            Remember: The best melons are the ones you HODL carefully. 💎<br><br>
-            Join our bouncy journey to the moon - where gravity can't hold these melons down! 🚀
-        </div>
-
-        <div class="command-prompt" role="heading" aria-level="2" style="--order: 9;">tokenomics.txt</div>
-        <div class="response" aria-live="polite" style="--order: 10;">
-            Total Supply: 1,000,000,000 $JMELON<br>
-        </div>
-
-        <div class="command-prompt" role="heading" aria-level="2" style="--order: 11;">features.txt</div>
-        <div class="response" aria-live="polite" style="--order: 12;">
-            - Deflationary Mechanism<br>
-            - Community Governed<br>
-        </div>
-
-        <div class="command" style="--order: 13;">
-            <span class="cursor" aria-hidden="true">█</span>
+        <div class="typing-effect" style="animation-delay: 32s;">>tokenomics.tx</div>
+        <div class="response">
+            <div class="typing-effect" style="animation-delay: 32s;">>Total Supply: 1,000,000,000 $JMELON</div>     
         </div>
     </div>
 
-    <footer class="footer" role="contentinfo">
-        🍈 JuicyMelons Coin © 2025 | The Sweetest Token in DeFi<br>
-        Twitter: <a href="https://x.com/juicymelonsx" target="_blank" rel="noopener noreferrer" style="color: inherit;">@JuicyMelonsCoin</a><br>
+    <div style="margin-bottom: 20px;"></div> <!-- Added space before footer -->
+
+    <footer class="footer">
+        🍈 JuicyMelons Coin © 2023 | The Sweetest Token in DeFi<br>
+        Twitter: <a href="https://x.com/juicymelonsx" target="_blank" rel="noopener noreferrer">@JuicyMelonsCoin</a>
+        Telegram: <a href="https://t.me/JuicyMelonsPortal" target="_blank" rel="noopener noreferrer">@JuicyMelons</a>
     </footer>
 
+    <div id="matrix-bg"></div>
+
     <script>
-        // Debounce function for performance optimization
-        const debounce = (func, wait) => {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        };
+        function createMatrixRain() {
+            const bg = document.getElementById('matrix-bg');
+            const characters = '01?';
+            const width = window.innerWidth;
+            const fontSize = 20;
+            const columns = Math.floor(width / fontSize);
 
-        // Initialize all animations and interactions
-        function initializeApp() {
-            // Initialize emoji animations
-            animateEmojis();
-            
-            // Add interactive effects
-            document.querySelectorAll('.response').forEach(element => {
-                element.addEventListener('mouseover', () => {
-                    element.style.textShadow = '0 0 15px var(--primary-color)';
+            const pool = new Set();
+            const maxCharacters = columns * 3;
+
+            function createCharacter() {
+                if (pool.size >= maxCharacters) return;
+                
+                const char = document.createElement('span');
+                char.className = 'matrix-character';
+                
+                const column = Math.floor(Math.random() * columns);
+                char.style.left = `${column * fontSize}px`;
+                char.style.position = 'absolute';
+                char.style.top = '-20px';
+                char.style.fontSize = `${fontSize}px`;
+                
+                const duration = 4 + Math.random() * 3;
+                char.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
+                
+                char.textContent = characters[Math.floor(Math.random() * characters.length)];
+                
+                char.addEventListener('transitionend', () => {
+                    pool.delete(char);
+                    char.remove();
                 });
-                element.addEventListener('mouseout', () => {
-                    element.style.textShadow = 'none';
-                });
-            });
-
-            // Add click effects
-            document.querySelectorAll('.command-prompt').forEach(prompt => {
-                prompt.addEventListener('click', () => {
-                    prompt.style.transform = 'scale(1.1)';
-                    setTimeout(() => {
-                        prompt.style.transform = 'none';
-                    }, 200);
-                });
-            });
-        }
-
-        // Optimized emoji animation handler
-        function animateEmojis() {
-            const emojis = document.querySelectorAll('.ascii-art, .footer');
-            const template = document.createElement('template');
-
-            emojis.forEach(emoji => {
-                const melons = emoji.innerHTML.match(/🍈/g);
-                if (melons) {
-                    template.innerHTML = emoji.innerHTML.replace(/🍈/g, '<span class="melon-emoji">🍈</span>');
-                    emoji.innerHTML = '';
-                    emoji.appendChild(template.content.cloneNode(true));
-                }
-            });
-
-            // Add click interaction to melons
-            document.querySelectorAll('.melon-emoji').forEach(melon => {
-                melon.addEventListener('click', () => {
-                    melon.style.transform = 'scale(1.5) rotate(360deg)';
-                    setTimeout(() => {
-                        melon.style.transform = '';
-                    }, 500);
-                });
-            });
-        }
-
-        // Start the app when DOM is ready
-        document.addEventListener('DOMContentLoaded', initializeApp);
-
-        // Add service worker for PWA support
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch(console.error);
-        }
-    </script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modified Matrix Background</title>
-<style>
-    body {
-        margin: 0;
-        background-color: #0c0c0c;
-        overflow: auto;
-        perspective: 1000px;
-    }
-
-    #matrix-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-    }
-
-    .matrix-character {
-        position: absolute;
-        font-size: 20px;
-        font-family: monospace;
-        will-change: transform, opacity, color;
-        text-shadow: 0 0 8px currentColor;
-        opacity: 0;
-    }
-
-    .rain {
-        color: #00ff00;
-        animation: matrixRain linear infinite;
-    }
-
-    .pulse {
-        color: #00ff00;
-        animation: matrixPulse linear infinite;
-    }
-
-    .highlight {
-        color: #ffffff;
-        animation: matrixHighlight linear infinite;
-    }
-
-    @keyframes matrixRain {
-        0% {
-            transform: translateY(-100vh) translateZ(var(--z-pos));
-            opacity: 1;
-        }
-        100% {
-            transform: translateY(100vh) translateZ(var(--z-pos));
-            opacity: 0;
-        }
-    }
-
-    @keyframes matrixPulse {
-        0% {
-            transform: translateY(-100vh) scale(1) translateZ(var(--z-pos));
-            opacity: 1;
-        }
-        50% {
-            transform: translateY(0) scale(1.5) translateZ(var(--z-pos));
-            opacity: 0.9;
-            color: #ffffff;
-        }
-        100% {
-            transform: translateY(100vh) scale(1) translateZ(var(--z-pos));
-            opacity: 0;
-        }
-    }
-
-    @keyframes matrixHighlight {
-        0% {
-            transform: translateY(-100vh) translateZ(var(--z-pos));
-            opacity: 1;
-        }
-        50% {
-            transform: translateY(0) translateZ(var(--z-pos));
-            opacity: 0.9;
-        }
-        100% {
-            transform: translateY(100vh) translateZ(var(--z-pos));
-            opacity: 0;
-        }
-    }
-</style>
-</head>
-<body>
-<div id="matrix-bg"></div>
-
-<script>
-    function createMatrixRain() {
-        const bg = document.getElementById('matrix-bg');
-        const characters = '01?';
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        const fontSize = 20;
-        const columns = Math.floor(width / fontSize);
-
-        const pool = new Set();
-        const maxCharacters = columns * 3;
-
-        function getRandomAnimation() {
-            const rand = Math.random();
-            if (rand < 0.7) return 'rain';      // 70% rain
-            if (rand < 0.9) return 'pulse';     // 20% pulse
-            return 'highlight';                  // 10% highlight
-        }
-
-        function createCharacter() {
-            if (pool.size >= maxCharacters) return;
-            
-            const char = document.createElement('span');
-            const animation = getRandomAnimation();
-            char.className = `matrix-character ${animation}`;
-            
-            const column = Math.floor(Math.random() * columns);
-            char.style.left = `${column * fontSize}px`;
-            
-            // Set random Z position between -5 and -9
-            const zPos = -5 - Math.random() * 4; // Random value between -5 and -9
-            char.style.setProperty('--z-pos', `${zPos}px`);
-            
-            const duration = 4 + Math.random() * 3;
-            char.style.animationDuration = `${duration}s`;
-            
-            char.textContent = characters[Math.floor(Math.random() * characters.length)];
-            
-            char.addEventListener('animationend', () => {
-                pool.delete(char);
-                char.remove();
-            }, { once: true });
-            
-            pool.add(char);
-            bg.appendChild(char);
-        }
-
-        // Continuously add new characters
-        const interval = setInterval(() => {
-            if (Math.random() < 0.8) {
-                createCharacter();
+                
+                pool.add(char);
+                bg.appendChild(char);
+                
+                // Force reflow
+                char.offsetHeight;
+                
+                char.style.transform = `translateY(${window.innerHeight + 20}px)`;
+                char.style.opacity = '0';
             }
-        }, 100);
 
-        return () => clearInterval(interval);
-    }
+            const interval = setInterval(createCharacter, 100);
+            return () => clearInterval(interval);
+        }
 
-    let cleanupFn;
-    
-    function initMatrixRain() {
-        if (cleanupFn) cleanupFn();
-        const bg = document.getElementById('matrix-bg');
-        bg.innerHTML = '';
-        cleanupFn = createMatrixRain();
-    }
+        let cleanupFn = createMatrixRain();
 
-    // Start animation
-    initMatrixRain();
+        window.addEventListener('resize', () => {
+            if (cleanupFn) cleanupFn();
+            const bg = document.getElementById('matrix-bg');
+            bg.innerHTML = '';
+            cleanupFn = createMatrixRain();
+        });
 
-    // Handle resize with debounce
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(initMatrixRain, 250);
-    });
-</script>
+        // Start typing effect one by one
+        const typingEffects = document.querySelectorAll('.typing-effect');
+        let currentIndex = 0;
+
+function startTypingEffect() {
+    if (currentIndex < typingEffects.length) {
+        typingEffects[currentIndex].style.animationPlayState = 'running';
+        currentIndex++;
+        setTimeout(startTypingEffect, 100); // Adjusted delay for faster typing
+            }
+        }
+
+        // Initialize typing effect on page load
+        window.onload = function() {
+            startTypingEffect();
+        };
+    </script>
 </body>
 </html>
